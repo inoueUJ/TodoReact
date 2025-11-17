@@ -73,7 +73,7 @@ function App() {
   // Timer functions
   const startTimer = () => {
     if (currentTaskId === null) {
-      alert('Please select a task first!')
+      alert('先にタスクを選択してください！')
       return
     }
     setIsRunning(true)
@@ -105,8 +105,8 @@ function App() {
 
     // Show notification
     if (Notification.permission === 'granted') {
-      new Notification('Pomodoro Complete!', {
-        body: 'Time for a break! 🎉',
+      new Notification('ポモドーロ完了！', {
+        body: '休憩時間です！🎉',
         icon: '/vite.svg'
       })
     }
@@ -182,9 +182,9 @@ function App() {
       <div className="max-w-7xl mx-auto">
         <header className="mb-8 md:mb-12 text-center animate-fade-in">
           <h1 className="text-5xl md:text-6xl font-bold bg-gradient-to-r from-primary-600 to-accent-600 bg-clip-text text-transparent mb-3">
-            Pomodoro Tasks
+            ポモドーロタスク
           </h1>
-          <p className="text-gray-600 text-lg">Focus on one task at a time 🍅</p>
+          <p className="text-gray-600 text-lg">一度に1つのタスクに集中 🍅</p>
         </header>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
@@ -195,15 +195,15 @@ function App() {
               <div className="bg-white rounded-2xl p-8 shadow-large hover:shadow-colored transition-all duration-300 border border-primary-100 animate-scale-in">
                 <div className="flex items-start justify-between mb-6">
                   <div className="flex-1">
-                    <p className="text-sm font-semibold text-primary-600 mb-2 uppercase tracking-wider">Current Task</p>
+                    <p className="text-sm font-semibold text-primary-600 mb-2 uppercase tracking-wider">現在のタスク</p>
                     <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">{currentTask.title}</h2>
                     <div className="flex items-center gap-4 text-sm text-gray-600">
                       <span className="flex items-center gap-1 font-medium">
-                        ⏱️ {currentTask.duration} min total
+                        ⏱️ {currentTask.duration}分（合計）
                       </span>
                       <span className="text-gray-300">•</span>
                       <span className="flex items-center gap-1 font-medium">
-                        🍅 {currentTask.pomodorosCompleted} / {currentTask.pomodorosNeeded} pomodoros
+                        🍅 {currentTask.pomodorosCompleted} / {currentTask.pomodorosNeeded} ポモドーロ
                       </span>
                     </div>
                   </div>
@@ -221,7 +221,7 @@ function App() {
                   />
                 </div>
                 {progress > 0 && (
-                  <p className="text-xs text-gray-500 mt-2 text-right font-medium">{Math.round(progress)}% Complete</p>
+                  <p className="text-xs text-gray-500 mt-2 text-right font-medium">{Math.round(progress)}% 完了</p>
                 )}
               </div>
             )}
@@ -230,11 +230,11 @@ function App() {
             <div className="bg-white rounded-2xl p-6 shadow-medium border border-gray-200 hover:border-primary-200 transition-all duration-300">
               <h3 className="text-xl font-bold mb-5 text-gray-900 flex items-center gap-2">
                 <span className="text-2xl">➕</span>
-                Add New Task
+                新しいタスクを追加
               </h3>
               <div className="space-y-4">
                 <Input
-                  placeholder="What do you want to work on?"
+                  placeholder="何に取り組みますか？"
                   value={newTaskTitle}
                   onChange={(e) => setNewTaskTitle(e.target.value)}
                   onKeyPress={(e) => e.key === 'Enter' && addTask()}
@@ -242,7 +242,7 @@ function App() {
                 <div className="flex gap-3">
                   <Input
                     type="number"
-                    placeholder="Duration (minutes)"
+                    placeholder="時間（分）"
                     value={newTaskDuration}
                     onChange={(e) => setNewTaskDuration(Number(e.target.value))}
                     className="flex-1"
@@ -260,14 +260,14 @@ function App() {
               <div className="border-b border-gray-200 p-5 bg-gradient-to-r from-primary-50 to-accent-50">
                 <h3 className="text-xl font-bold text-gray-900 flex items-center gap-2">
                   <span className="text-2xl">📋</span>
-                  All Tasks
+                  すべてのタスク
                 </h3>
               </div>
               <div className="divide-y divide-gray-100">
                 {tasks.length === 0 ? (
                   <div className="p-12 text-center">
                     <div className="text-6xl mb-4">📝</div>
-                    <p className="text-gray-400 font-medium">No tasks yet. Add one to get started!</p>
+                    <p className="text-gray-400 font-medium">まだタスクがありません。追加して始めましょう！</p>
                   </div>
                 ) : (
                   tasks.map(task => (
@@ -295,7 +295,7 @@ function App() {
                             </span>
                           </div>
                           <div className="ml-8 flex items-center gap-3 text-sm text-gray-600">
-                            <span className="font-medium">⏱️ {task.duration} min</span>
+                            <span className="font-medium">⏱️ {task.duration}分</span>
                             <span className="text-gray-300">•</span>
                             <span className="font-medium">🍅 {task.pomodorosCompleted}/{task.pomodorosNeeded}</span>
                           </div>
@@ -337,7 +337,7 @@ function App() {
 
                 {isCustomizing ? (
                   <div className="space-y-4 animate-fade-in">
-                    <p className="text-sm font-bold text-gray-700 uppercase tracking-wider">Pomodoro Duration</p>
+                    <p className="text-sm font-bold text-gray-700 uppercase tracking-wider">ポモドーロの時間</p>
                     <Input
                       type="number"
                       value={customDuration}
@@ -348,21 +348,21 @@ function App() {
                     />
                     <div className="flex gap-2">
                       <Button onClick={updatePomodoroDuration} className="flex-1">
-                        Save
+                        保存
                       </Button>
                       <Button
                         variant="outline"
                         onClick={() => setIsCustomizing(false)}
                         className="flex-1"
                       >
-                        Cancel
+                        キャンセル
                       </Button>
                     </div>
                   </div>
                 ) : (
                   <>
                     <div className="relative flex flex-col items-center">
-                      <p className="text-sm font-bold text-primary-600 mb-6 uppercase tracking-wider">Pomodoro Timer</p>
+                      <p className="text-sm font-bold text-primary-600 mb-6 uppercase tracking-wider">ポモドーロタイマー</p>
 
                       {/* Circular Progress Timer */}
                       <div className="relative">
@@ -377,7 +377,7 @@ function App() {
                           <div className={`text-6xl font-bold font-mono tracking-tight bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent mb-2 ${isRunning ? 'animate-pulse-slow' : ''}`}>
                             {formatTime(timeRemaining)}
                           </div>
-                          <p className="text-sm text-gray-500 font-semibold">{pomodoroDuration} min session</p>
+                          <p className="text-sm text-gray-500 font-semibold">{pomodoroDuration}分セッション</p>
 
                           {/* Progress percentage */}
                           <div className="mt-2">
@@ -399,7 +399,7 @@ function App() {
                           disabled={!currentTask}
                         >
                           <Play className="h-5 w-5 mr-2" />
-                          Start
+                          開始
                         </Button>
                       ) : (
                         <Button
@@ -409,7 +409,7 @@ function App() {
                           className="flex-1"
                         >
                           <Pause className="h-5 w-5 mr-2" />
-                          Pause
+                          一時停止
                         </Button>
                       )}
                       <Button
@@ -424,7 +424,7 @@ function App() {
                     {!currentTask && (
                       <div className="bg-amber-50 border border-amber-200 rounded-xl p-4 mt-4">
                         <p className="text-sm text-amber-800 font-medium">
-                          👈 Select a task to start the timer
+                          👈 タイマーを開始するにはタスクを選択してください
                         </p>
                       </div>
                     )}
