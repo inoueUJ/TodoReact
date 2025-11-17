@@ -171,14 +171,16 @@ function App() {
     : 0
 
   return (
-    <div className="min-h-screen bg-white text-black p-8">
+    <div className="min-h-screen bg-gradient-to-br from-rose-50 via-orange-50 to-pink-50 p-6 md:p-8">
       {/* Hidden audio element for notification */}
       <audio ref={audioRef} src="data:audio/wav;base64,UklGRnoGAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQoGAACBhYqFbF1fdJivrJBhNjVgodDbq2EcBj+a2/LDciUFLIHO8tiJNwgZaLvt559NEAxQp+PwtmMcBjiR1/LMeSwFJHfH8N2QQAoUXrTp66hVFApGn+DyvmwhBjGH0fPTgjMGHm7A7+OZURE6ktnysF0aBjiT2e/QgTYIHWnB7+mbUhE3j9nxr18cBjiS2PDVhzgJHmnC7uyhUhI1j9nwr18dBTiR2PDWhzgJH2rB7uyhUhE2j9rwrl0dBTmQ2PDXhzkJH2rB7u2iURI2j9nwrl0dBTmP2PDWiDkJH2rA7uyhUhI2j9nwrl4dBTiR2PDVhzgJH2rA7uyhUhI2j9nwrl0dBTmQ2PDWiDkJH2rB7uyhUhE2j9rwrl4dBjiS2e/QhzcJH2rB7u2iURE2j9rwrl0dBTmP2PDWhzkJH2rB7uyhUhI1j9nwr14dBDmP2PDXiDkJH2rB7uyhUhE2j9nwrl0dBTmP2PDWiDkJH2rB7uyhUhE2j9nwrl0dBTmP2PDWhzkJH2rB7uyhUhI1j9nwr10dBTmP2PDWiDkJH2rB7uyhUhI1j9nwrl4dBTmP2PDWhzkJH2nB7uyhUhI2j9nwrl0dBTmP2PDWiDkJH2rB7uyhUhE2j9nwrl4dBTiP2PDXhzkJH2rB7uyhUhE2j9nwrl4dBTmP2PDWiDkJH2rB7uyhUhE2j9nwrl4dBTmP2PDWiDkJH2rB7uyhUhI2j9nwrl4dBTmP2PDWiDkJH2rB7uyhUhE2j9nwrl4dBTmP2PDWiDkJH2rB7uyhUhI1j9nwrl4dBTmP2PDWiDkJH2rB7uyhUhI2j9nwrl4dBTmP2PDWiDkJH2rB7uyhUhI1j9nwrl4dBTmP2PDWiDkJH2rB7uyhUhI2j9nwrl4dBTmP2PDWiDkJH2rB7uyhUhI1j9nwrl4dBTmP2PDWiDkJH2rB7uyhUhI2j9nwrl4d"/>
 
       <div className="max-w-7xl mx-auto">
-        <header className="mb-12">
-          <h1 className="text-4xl font-bold tracking-tight">Pomodoro Tasks</h1>
-          <p className="text-black/60 mt-2">Focus on one task at a time</p>
+        <header className="mb-8 md:mb-12 text-center animate-fade-in">
+          <h1 className="text-5xl md:text-6xl font-bold bg-gradient-to-r from-primary-600 to-accent-600 bg-clip-text text-transparent mb-3">
+            Pomodoro Tasks
+          </h1>
+          <p className="text-gray-600 text-lg">Focus on one task at a time 🍅</p>
         </header>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
@@ -186,15 +188,19 @@ function App() {
           <div className="lg:col-span-2 space-y-6">
             {/* Current Task Display */}
             {currentTask && (
-              <div className="border-2 border-black p-8 rounded-lg">
-                <div className="flex items-start justify-between mb-4">
+              <div className="bg-white rounded-2xl p-8 shadow-large hover:shadow-colored transition-all duration-300 border border-primary-100 animate-scale-in">
+                <div className="flex items-start justify-between mb-6">
                   <div className="flex-1">
-                    <p className="text-sm font-medium text-black/60 mb-2">Current Task</p>
-                    <h2 className="text-3xl font-bold mb-4">{currentTask.title}</h2>
-                    <div className="flex items-center gap-4 text-sm text-black/60">
-                      <span>{currentTask.duration} min total</span>
-                      <span>•</span>
-                      <span>{currentTask.pomodorosCompleted} / {currentTask.pomodorosNeeded} pomodoros</span>
+                    <p className="text-sm font-semibold text-primary-600 mb-2 uppercase tracking-wider">Current Task</p>
+                    <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">{currentTask.title}</h2>
+                    <div className="flex items-center gap-4 text-sm text-gray-600">
+                      <span className="flex items-center gap-1 font-medium">
+                        ⏱️ {currentTask.duration} min total
+                      </span>
+                      <span className="text-gray-300">•</span>
+                      <span className="flex items-center gap-1 font-medium">
+                        🍅 {currentTask.pomodorosCompleted} / {currentTask.pomodorosNeeded} pomodoros
+                      </span>
                     </div>
                   </div>
                   <Checkbox
@@ -204,21 +210,27 @@ function App() {
                 </div>
 
                 {/* Progress Bar */}
-                <div className="w-full bg-black/10 h-2 rounded-full overflow-hidden">
+                <div className="w-full bg-gray-100 h-3 rounded-full overflow-hidden">
                   <div
-                    className="bg-black h-full transition-all duration-300"
+                    className="bg-gradient-to-r from-primary-500 to-accent-500 h-full transition-all duration-500 ease-out shadow-sm"
                     style={{ width: `${progress}%` }}
                   />
                 </div>
+                {progress > 0 && (
+                  <p className="text-xs text-gray-500 mt-2 text-right font-medium">{Math.round(progress)}% Complete</p>
+                )}
               </div>
             )}
 
             {/* Add New Task */}
-            <div className="border border-black/20 p-6 rounded-lg">
-              <h3 className="text-lg font-semibold mb-4">Add New Task</h3>
-              <div className="space-y-3">
+            <div className="bg-white rounded-2xl p-6 shadow-medium border border-gray-200 hover:border-primary-200 transition-all duration-300">
+              <h3 className="text-xl font-bold mb-5 text-gray-900 flex items-center gap-2">
+                <span className="text-2xl">➕</span>
+                Add New Task
+              </h3>
+              <div className="space-y-4">
                 <Input
-                  placeholder="Task title"
+                  placeholder="What do you want to work on?"
                   value={newTaskTitle}
                   onChange={(e) => setNewTaskTitle(e.target.value)}
                   onKeyPress={(e) => e.key === 'Enter' && addTask()}
@@ -232,34 +244,40 @@ function App() {
                     className="flex-1"
                     min="1"
                   />
-                  <Button onClick={addTask} size="icon">
-                    <Plus className="h-4 w-4" />
+                  <Button onClick={addTask} size="icon" className="shrink-0">
+                    <Plus className="h-5 w-5" />
                   </Button>
                 </div>
               </div>
             </div>
 
             {/* Task List */}
-            <div className="border border-black/20 rounded-lg overflow-hidden">
-              <div className="border-b border-black/20 p-4 bg-black/5">
-                <h3 className="text-lg font-semibold">All Tasks</h3>
+            <div className="bg-white rounded-2xl overflow-hidden shadow-medium border border-gray-200">
+              <div className="border-b border-gray-200 p-5 bg-gradient-to-r from-primary-50 to-accent-50">
+                <h3 className="text-xl font-bold text-gray-900 flex items-center gap-2">
+                  <span className="text-2xl">📋</span>
+                  All Tasks
+                </h3>
               </div>
-              <div className="divide-y divide-black/10">
+              <div className="divide-y divide-gray-100">
                 {tasks.length === 0 ? (
-                  <div className="p-8 text-center text-black/40">
-                    No tasks yet. Add one to get started!
+                  <div className="p-12 text-center">
+                    <div className="text-6xl mb-4">📝</div>
+                    <p className="text-gray-400 font-medium">No tasks yet. Add one to get started!</p>
                   </div>
                 ) : (
                   tasks.map(task => (
                     <div
                       key={task.id}
-                      className={`p-4 hover:bg-black/5 transition-colors cursor-pointer ${
-                        currentTaskId === task.id ? 'bg-black/5 border-l-4 border-black' : ''
+                      className={`p-5 hover:bg-gray-50 transition-all duration-200 cursor-pointer ${
+                        currentTaskId === task.id
+                          ? 'bg-gradient-to-r from-primary-50 to-accent-50 border-l-4 border-primary-500'
+                          : ''
                       }`}
                       onClick={() => selectTask(task.id)}
                     >
-                      <div className="flex items-start justify-between">
-                        <div className="flex-1">
+                      <div className="flex items-start justify-between gap-3">
+                        <div className="flex-1 min-w-0">
                           <div className="flex items-center gap-3 mb-2">
                             <Checkbox
                               checked={task.completed}
@@ -268,17 +286,20 @@ function App() {
                                 toggleTaskCompletion(task.id)
                               }}
                             />
-                            <span className={`font-medium ${task.completed ? 'line-through text-black/40' : ''}`}>
+                            <span className={`font-semibold text-gray-900 ${task.completed ? 'line-through text-gray-400' : ''}`}>
                               {task.title}
                             </span>
                           </div>
-                          <div className="ml-7 text-sm text-black/60">
-                            {task.duration} min • {task.pomodorosCompleted}/{task.pomodorosNeeded} pomodoros
+                          <div className="ml-8 flex items-center gap-3 text-sm text-gray-600">
+                            <span className="font-medium">⏱️ {task.duration} min</span>
+                            <span className="text-gray-300">•</span>
+                            <span className="font-medium">🍅 {task.pomodorosCompleted}/{task.pomodorosNeeded}</span>
                           </div>
                         </div>
                         <Button
                           variant="ghost"
                           size="icon"
+                          className="shrink-0 hover:bg-red-50 hover:text-red-600"
                           onClick={(e) => {
                             e.stopPropagation()
                             deleteTask(task.id)
@@ -296,7 +317,7 @@ function App() {
 
           {/* Right Side - Timer */}
           <div className="lg:col-span-1">
-            <div className="border-2 border-black rounded-lg p-8 sticky top-8">
+            <div className="bg-white rounded-2xl p-8 shadow-large sticky top-8 border-2 border-primary-200 animate-scale-in">
               <div className="text-center space-y-6">
                 {/* Settings */}
                 <div className="flex justify-end">
@@ -304,21 +325,22 @@ function App() {
                     variant="ghost"
                     size="icon"
                     onClick={() => setIsCustomizing(!isCustomizing)}
+                    className="hover:bg-primary-50 hover:text-primary-600"
                   >
                     <Settings className="h-5 w-5" />
                   </Button>
                 </div>
 
                 {isCustomizing ? (
-                  <div className="space-y-4">
-                    <p className="text-sm font-medium">Pomodoro Duration</p>
+                  <div className="space-y-4 animate-fade-in">
+                    <p className="text-sm font-bold text-gray-700 uppercase tracking-wider">Pomodoro Duration</p>
                     <Input
                       type="number"
                       value={customDuration}
                       onChange={(e) => setCustomDuration(Number(e.target.value))}
                       min="1"
                       max="120"
-                      className="text-center text-lg"
+                      className="text-center text-lg font-bold"
                     />
                     <div className="flex gap-2">
                       <Button onClick={updatePomodoroDuration} className="flex-1">
@@ -335,16 +357,19 @@ function App() {
                   </div>
                 ) : (
                   <>
-                    <div>
-                      <p className="text-sm font-medium text-black/60 mb-2">Pomodoro Timer</p>
-                      <p className="text-7xl font-bold font-mono tracking-tight">
-                        {formatTime(timeRemaining)}
-                      </p>
-                      <p className="text-sm text-black/40 mt-2">{pomodoroDuration} min session</p>
+                    <div className="relative">
+                      <div className="absolute inset-0 bg-gradient-to-r from-primary-500 to-accent-500 rounded-full blur-2xl opacity-20 animate-pulse-slow"></div>
+                      <div className="relative">
+                        <p className="text-sm font-bold text-primary-600 mb-4 uppercase tracking-wider">Pomodoro Timer</p>
+                        <div className={`text-7xl md:text-8xl font-bold font-mono tracking-tight bg-gradient-to-r from-primary-600 to-accent-600 bg-clip-text text-transparent mb-2 ${isRunning ? 'animate-pulse-slow' : ''}`}>
+                          {formatTime(timeRemaining)}
+                        </div>
+                        <p className="text-sm text-gray-500 mt-3 font-semibold">{pomodoroDuration} min session</p>
+                      </div>
                     </div>
 
                     {/* Timer Controls */}
-                    <div className="flex gap-3 justify-center">
+                    <div className="flex gap-3 justify-center pt-4">
                       {!isRunning ? (
                         <Button
                           onClick={startTimer}
@@ -359,6 +384,7 @@ function App() {
                         <Button
                           onClick={pauseTimer}
                           size="lg"
+                          variant="accent"
                           className="flex-1"
                         >
                           <Pause className="h-5 w-5 mr-2" />
@@ -375,9 +401,11 @@ function App() {
                     </div>
 
                     {!currentTask && (
-                      <p className="text-sm text-black/40">
-                        Select a task to start the timer
-                      </p>
+                      <div className="bg-amber-50 border border-amber-200 rounded-xl p-4 mt-4">
+                        <p className="text-sm text-amber-800 font-medium">
+                          👈 Select a task to start the timer
+                        </p>
+                      </div>
                     )}
                   </>
                 )}
