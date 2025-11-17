@@ -107,7 +107,7 @@ function App() {
     if (Notification.permission === 'granted') {
       new Notification('ポモドーロ完了！', {
         body: '休憩時間です！🎉',
-        icon: '/vite.svg'
+        icon: '/icon.svg'
       })
     }
 
@@ -182,7 +182,7 @@ function App() {
       <div className="max-w-7xl mx-auto">
         <header className="mb-8 md:mb-12 text-center animate-fade-in">
           <h1 className="text-5xl md:text-6xl font-bold bg-gradient-to-r from-primary-600 to-accent-600 bg-clip-text text-transparent mb-3">
-            ポモドーロタスク
+            Pomodoro Tasks
           </h1>
           <p className="text-gray-600 text-lg">一度に1つのタスクに集中 🍅</p>
         </header>
