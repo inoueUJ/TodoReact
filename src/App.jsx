@@ -2,6 +2,7 @@ import { useState, useEffect, useRef, useCallback } from 'react'
 import { Button } from './components/ui/button'
 import { Input } from './components/ui/input'
 import { Checkbox } from './components/ui/checkbox'
+import { CircularProgress } from './components/ui/circular-progress'
 import { Play, Pause, RotateCcw, Plus, Trash2, Settings } from 'lucide-react'
 import './App.css'
 
@@ -170,6 +171,9 @@ function App() {
     ? (currentTask.pomodorosCompleted / currentTask.pomodorosNeeded) * 100
     : 0
 
+  // Calculate timer progress percentage (for circular progress)
+  const timerProgress = (timeRemaining / (pomodoroDuration * 60)) * 100
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-rose-50 via-orange-50 to-pink-50 p-6 md:p-8">
       {/* Hidden audio element for notification */}
@@ -317,7 +321,7 @@ function App() {
 
           {/* Right Side - Timer */}
           <div className="lg:col-span-1">
-            <div className="bg-white rounded-2xl p-8 shadow-large sticky top-8 border-2 border-primary-200 animate-scale-in">
+            <div className="bg-white rounded-2xl p-6 shadow-large sticky top-8 border-2 border-primary-200 animate-scale-in">
               <div className="text-center space-y-6">
                 {/* Settings */}
                 <div className="flex justify-end">
@@ -357,14 +361,31 @@ function App() {
                   </div>
                 ) : (
                   <>
-                    <div className="relative">
-                      <div className="absolute inset-0 bg-gradient-to-r from-primary-500 to-accent-500 rounded-full blur-2xl opacity-20 animate-pulse-slow"></div>
+                    <div className="relative flex flex-col items-center">
+                      <p className="text-sm font-bold text-primary-600 mb-6 uppercase tracking-wider">Pomodoro Timer</p>
+
+                      {/* Circular Progress Timer */}
                       <div className="relative">
-                        <p className="text-sm font-bold text-primary-600 mb-4 uppercase tracking-wider">Pomodoro Timer</p>
-                        <div className={`text-7xl md:text-8xl font-bold font-mono tracking-tight bg-gradient-to-r from-primary-600 to-accent-600 bg-clip-text text-transparent mb-2 ${isRunning ? 'animate-pulse-slow' : ''}`}>
-                          {formatTime(timeRemaining)}
+                        <CircularProgress
+                          percentage={timerProgress}
+                          size={280}
+                          strokeWidth={12}
+                        />
+
+                        {/* Timer display in the center */}
+                        <div className="absolute inset-0 flex flex-col items-center justify-center">
+                          <div className={`text-6xl font-bold font-mono tracking-tight bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent mb-2 ${isRunning ? 'animate-pulse-slow' : ''}`}>
+                            {formatTime(timeRemaining)}
+                          </div>
+                          <p className="text-sm text-gray-500 font-semibold">{pomodoroDuration} min session</p>
+
+                          {/* Progress percentage */}
+                          <div className="mt-2">
+                            <span className="text-xs font-bold text-gray-400">
+                              {Math.round(timerProgress)}%
+                            </span>
+                          </div>
                         </div>
-                        <p className="text-sm text-gray-500 mt-3 font-semibold">{pomodoroDuration} min session</p>
                       </div>
                     </div>
 
