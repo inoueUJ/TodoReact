@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="none">
+  <!-- Background circle -->
+  <circle cx="50" cy="50" r="48" fill="#ef4444"/>
+
+  <!-- Tomato body -->
+  <ellipse cx="50" cy="52" rx="35" ry="38" fill="#dc2626"/>
+
+  <!-- Highlight -->
+  <ellipse cx="38" cy="40" rx="12" ry="15" fill="#f87171" opacity="0.6"/>
+
+  <!-- Leaf -->
+  <path d="M 45 15 Q 40 10 35 12 Q 32 14 34 18 Q 36 20 40 19 L 45 15 Z" fill="#16a34a"/>
+  <path d="M 50 12 Q 52 8 56 9 Q 60 10 59 14 Q 58 17 54 17 L 50 12 Z" fill="#22c55e"/>
+
+  <!-- Stem -->
+  <rect x="48" y="10" width="4" height="8" rx="2" fill="#15803d"/>
+
+  <!-- Timer indicator (clock hands) -->
+  <circle cx="50" cy="52" r="28" fill="none" stroke="#ffffff" stroke-width="2" opacity="0.3"/>
+
+  <!-- Minute hand -->
+  <line x1="50" y1="52" x2="50" y2="32" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round"/>
+
+  <!-- Hour hand -->
+  <line x1="50" y1="52" x2="62" y2="52" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round"/>
+
+  <!-- Center dot -->
+  <circle cx="50" cy="52" r="3" fill="#ffffff"/>
+</svg>
