@@ -1,323 +1,258 @@
 # CLAUDE.md - AI Assistant Guide for TodoReact
 
-**Last Updated:** 2025-11-17
-**Project:** TodoReact
-**Type:** React + Vite Application
+**Last Updated:** 2024-11-17
+**Project:** Pomodoro Tasks (TodoReact)
+**Type:** React + Vite + Tailwind CSS Application
 
 ## Project Overview
 
-TodoReact is a modern React application bootstrapped with Vite. Currently, it's a starter template with a basic counter component, positioned to be developed into a full-featured todo application.
+Pomodoro Tasksは、ポモドーロテクニックを活用した本格的なタスク管理アプリケーションです。美しいUI、円形プログレスバー、リアルタイムタイマーを備えた完全な機能を持つプロダクションレディなアプリです。
+
+### 現在の実装状況
+
+✅ **完全実装済み**
+- ポモドーロタイマー（カスタマイズ可能）
+- タスク管理（追加・削除・完了管理）
+- 円形プログレスバー
+- ブラウザ通知
+- レスポンシブデザイン
+- PWA対応メタタグ
+- 包括的なCI/CD
+- 完全なドキュメント
 
 ### Technology Stack
 
 - **Framework:** React 18.2.0
-- **Build Tool:** Vite 4.3.2
+- **Build Tool:** Vite 4.5.14
+- **Styling:** Tailwind CSS 3.4.17
+- **Icons:** Lucide React 0.553.0
+- **Utilities:** clsx, tailwind-merge, class-variance-authority
 - **Language:** JavaScript (JSX)
 - **Package Manager:** npm
 - **Code Quality:** ESLint
-- **React Features:** Hooks, StrictMode, Fast Refresh
+- **Deployment:** Vercel（自動デプロイ設定済み）
 
 ## Project Structure
 
 ```
 TodoReact/
-├── public/              # Static assets served directly
-│   └── vite.svg        # Vite logo
-├── src/                # Source code
-│   ├── assets/         # Asset files (images, etc.)
-│   │   └── react.svg   # React logo
-│   ├── App.css         # Component-specific styles
-│   ├── App.jsx         # Main App component
-│   ├── index.css       # Global styles
-│   └── main.jsx        # Application entry point
-├── .eslintrc.cjs       # ESLint configuration
-├── .gitignore          # Git ignore rules
-├── index.html          # HTML entry point
-├── package.json        # Project dependencies and scripts
-├── package-lock.json   # Locked dependency versions
-└── vite.config.js      # Vite configuration
+├── .github/                    # GitHub設定・CI/CD
+│   ├── workflows/             # GitHub Actions
+│   │   ├── ci.yml            # CI パイプライン
+│   │   └── security.yml      # セキュリティ監査
+│   ├── ISSUE_TEMPLATE/       # Issue テンプレート
+│   ├── CONTRIBUTING.md       # コントリビューションガイド
+│   ├── dependabot.yml        # 依存関係自動更新
+│   └── pull_request_template.md
+├── docs/                      # ドキュメント
+│   ├── ARCHITECTURE.md       # アーキテクチャ解説
+│   ├── DEPLOYMENT.md         # デプロイガイド
+│   └── TROUBLESHOOTING.md    # トラブルシューティング
+├── public/                    # 静的ファイル
+│   └── icon.svg              # カスタムトマトアイコン
+├── src/
+│   ├── components/           # Reactコンポーネント
+│   │   └── ui/              # 再利用可能なUIコンポーネント
+│   │       ├── button.jsx
+│   │       ├── input.jsx
+│   │       ├── checkbox.jsx
+│   │       └── circular-progress.jsx
+│   ├── lib/                 # ユーティリティ
+│   │   └── utils.js
+│   ├── App.jsx              # メインアプリケーション
+│   ├── App.css              # アプリスタイル
+│   ├── index.css            # グローバルスタイル
+│   └── main.jsx             # エントリーポイント
+├── .editorconfig            # エディタ設定
+├── .nvmrc                   # Node.jsバージョン指定
+├── index.html               # HTMLテンプレート
+├── LICENSE                  # MITライセンス
+├── package.json             # 依存関係
+├── postcss.config.js        # PostCSS設定
+├── README.md                # プロジェクト README
+├── tailwind.config.js       # Tailwind設定
+├── vercel.json              # Vercel設定
+└── vite.config.js           # Vite設定
 ```
 
-## Key Files and Their Purposes
+## Key Components
 
-### Entry Points
+### メインアプリケーション (src/App.jsx)
 
-- **`index.html`** (line 11): Mounts the React app via `src/main.jsx`
-- **`src/main.jsx`** (lines 6-10): Creates React root and renders `<App />` in StrictMode
-- **`src/App.jsx`**: Main application component (currently a counter demo)
+ポモドーロタイマーアプリの中核：
+- **タスク管理**: 追加、削除、完了管理、選択
+- **タイマー機能**: 開始、一時停止、リセット
+- **通知**: ブラウザ通知とサウンド
+- **状態管理**: React Hooks（useState, useEffect, useCallback, useRef）
 
-### Configuration Files
+### UIコンポーネント (src/components/ui/)
 
-- **`vite.config.js`**: Minimal Vite config with React plugin
-- **`.eslintrc.cjs`**: ESLint rules for React development
-  - Extends: `eslint:recommended`, `plugin:react/recommended`, `plugin:react/jsx-runtime`, `plugin:react-hooks/recommended`
-  - Uses React 18.2 settings
-  - Includes `react-refresh` plugin for HMR
-
-- **`package.json`**: Defines 4 scripts:
-  - `dev`: Start development server
-  - `build`: Production build
-  - `lint`: Run ESLint on src directory
-  - `preview`: Preview production build
-
-### Styling
-
-- **`src/index.css`**: Global styles with light/dark theme support
-  - Uses CSS custom properties
-  - Responsive color scheme based on user preference
-  - Base styles for typography and layout
-
-- **`src/App.css`**: Component-specific styles
-  - Logo animations
-  - Card layouts
-  - Responsive design considerations
+shadcn/ui風のカスタムコンポーネント：
+- **Button**: グラデーション、複数バリアント（default, outline, ghost, accent）
+- **Input**: フォーカス状態、バリデーション対応
+- **Checkbox**: グラデーション、アクセシビリティ対応
+- **CircularProgress**: SVGベースの円形プログレスバー
 
 ## Development Workflows
 
-### Getting Started
+### 開発サーバー起動
 
 ```bash
-# Install dependencies
 npm install
-
-# Start development server (with HMR)
 npm run dev
-
-# Build for production
-npm run build
-
-# Preview production build
-npm run preview
-
-# Run linter
-npm run lint
 ```
 
-### Development Server
+### ビルド
 
-- Vite dev server runs with Hot Module Replacement (HMR)
-- Changes to JSX files trigger fast refresh without losing state
-- Default port: Check console output from `npm run dev`
+```bash
+npm run build       # プロダクションビルド
+npm run preview     # ビルドのプレビュー
+npm run lint        # ESLintチェック
+```
 
-### Code Quality
+### CI/CD
 
-- ESLint is configured with React-specific rules
-- Max warnings set to 0 (strict mode)
-- Run linting before committing: `npm run lint`
+GitHub Actionsが自動実行：
+- **Push時**: ESLint + ビルドチェック（Node 18.x & 20.x）
+- **PR時**: 依存関係レビュー
+- **週次**: セキュリティ監査
 
-## Code Conventions
+## Styling Architecture
 
-### React Patterns
+### Tailwind CSS設定 (tailwind.config.js)
 
-1. **Functional Components:** Use function declarations with hooks
-   ```jsx
-   function ComponentName() {
-     const [state, setState] = useState(initialValue)
-     return <div>...</div>
-   }
-   export default ComponentName
-   ```
+カスタマイズ内容：
+- **カラーパレット**: primary（赤）、accent（オレンジ）
+- **グラデーション**: gradient-primary, gradient-warm, gradient-sunset
+- **シャドウ**: soft, medium, large, colored, glow
+- **アニメーション**: fade-in, slide-up, scale-in, pulse-slow
 
-2. **Imports:** Follow this order
-   - React imports
-   - Third-party libraries
-   - Local components
-   - Assets
-   - Styles
+### グローバルスタイル (src/index.css)
 
-3. **Hooks:** Current usage in App.jsx:
-   - `useState` for state management
-   - Follow React Hooks rules (enforced by ESLint)
+- Google Fonts（Inter, Fira Code）
+- カスタムスクロールバー（グラデーション）
+- スムーズスクロール
 
-4. **JSX:**
-   - Use fragments (`<>...</>`) to avoid unnecessary wrapper divs
-   - Component files use `.jsx` extension
-   - Self-closing tags for components without children
+## State Management
 
-### File Naming
+### ローカル状態（useState）
 
-- Components: PascalCase (e.g., `App.jsx`)
-- Styles: kebab-case or match component name (e.g., `App.css`, `index.css`)
-- Assets: kebab-case (e.g., `react.svg`)
+```javascript
+// タスク
+const [tasks, setTasks] = useState([])
+const [currentTaskId, setCurrentTaskId] = useState(null)
 
-### Code Style
+// タイマー
+const [timeRemaining, setTimeRemaining] = useState(25 * 60)
+const [isRunning, setIsRunning] = useState(false)
+const [pomodoroDuration, setPomodoroDuration] = useState(25)
+```
 
-- Modern ES6+ JavaScript syntax
-- Arrow functions for inline callbacks
-- Destructuring where appropriate
-- ESLint enforces consistent style
+### 副作用（useEffect）
 
-## Git Workflow
+- タイマーのインターバル管理
+- 通知パーミッションリクエスト
 
-### Current Branch Structure
+### Refs（useRef）
 
-- **Active Branch:** `claude/claude-md-mi2elu2r3ctdnq7o-01H7cz1gPk5tZwk5NX7MT1e7`
-- **Initial Commit:** `ff40027` - "firstCommit"
+- `intervalRef`: setIntervalのIDを保持
+- `audioRef`: 通知音の再生
 
-### Branch Naming Convention
+## Deployment
 
-- Claude AI branches follow pattern: `claude/claude-md-{identifier}-{session-id}`
-- Always develop on designated feature branches
-- Never push to unintended branches without permission
+### Vercel（メイン）
 
-### Git Ignore
+- 自動デプロイ設定済み
+- セキュリティヘッダー設定済み
+- アセットキャッシュ最適化
 
-The following are ignored (see `.gitignore`):
-- `node_modules/` - Dependencies
-- `dist/`, `dist-ssr/` - Build outputs
-- `*.local` - Local environment files
-- Log files
-- Editor-specific files (except `.vscode/extensions.json`)
+### その他のプラットフォーム
+
+詳細は `docs/DEPLOYMENT.md` を参照
+
+## Documentation
+
+プロジェクトには包括的なドキュメントが用意されています：
+
+- **README.md**: プロジェクト概要、クイックスタート
+- **docs/ARCHITECTURE.md**: 技術アーキテクチャ、設計決定
+- **docs/DEPLOYMENT.md**: デプロイ手順（複数プラットフォーム）
+- **docs/TROUBLESHOOTING.md**: よくある問題と解決方法
+- **.github/CONTRIBUTING.md**: コントリビューションガイド
 
 ## AI Assistant Guidelines
 
-### When Working on This Codebase
+### コード変更時の推奨事項
 
-1. **Before Making Changes:**
-   - Read relevant source files to understand current implementation
-   - Check `package.json` for available scripts and dependencies
-   - Review ESLint config to understand code quality standards
+1. **ビルド確認**
+   ```bash
+   npm run lint    # エラーがないことを確認
+   npm run build   # ビルドが成功することを確認
+   ```
 
-2. **Development Practices:**
-   - Always run `npm run lint` before committing
-   - Test changes with `npm run dev` to ensure HMR works
-   - Verify production builds with `npm run build` and `npm run preview`
-   - Maintain existing code style and conventions
+2. **コンポーネント追加時**
+   - `src/components/ui/` に配置
+   - PropTypesで型定義
+   - forwardRefでref対応
+   - アクセシビリティ考慮
 
-3. **Component Development:**
-   - Place new components in `src/` directory
-   - Create corresponding CSS files if needed
-   - Import and use in `App.jsx` or create new component hierarchy
-   - Follow functional component + hooks pattern
-   - Export components as default exports
+3. **スタイル追加時**
+   - Tailwindユーティリティクラスを優先
+   - カスタムクラスは `tailwind.config.js` で定義
+   - レスポンシブ対応（sm:, md:, lg:）
 
-4. **State Management:**
-   - Currently using React hooks (`useState`)
-   - No global state management library installed
-   - Consider adding Context API or state library for complex features
+4. **状態管理**
+   - 複雑な状態はuseReducerを検討
+   - グローバル状態が必要な場合はContext API
+   - パフォーマンス最適化にuseMemo/useCallback
 
-5. **Styling Approach:**
-   - CSS modules or component-scoped CSS files
-   - Global styles in `index.css`
-   - Maintains light/dark theme support
-   - Responsive design considerations
+### 拡張しやすい機能
 
-6. **Common Gotchas:**
-   - Vite uses ES modules (`"type": "module"` in package.json)
-   - ESLint config uses CommonJS (`.eslintrc.cjs`)
-   - React 18 features available (Suspense, transitions, etc.)
-   - StrictMode is enabled (components mount twice in dev)
+- LocalStorage永続化
+- ダークモード（Tailwind darkモード）
+- タスクカテゴリ・タグ
+- 統計ダッシュボード
+- エクスポート/インポート
+- キーボードショートカット
 
-### Testing Changes
+## Testing（将来実装）
 
-Since no testing framework is currently installed:
-- Manual testing via dev server is primary method
-- Consider adding Vitest or Jest for unit tests
-- Consider adding React Testing Library for component tests
+推奨スタック：
+- **Unit**: Vitest
+- **Component**: React Testing Library
+- **E2E**: Playwright
 
-### Adding Dependencies
+## Security
 
-```bash
-# Production dependency
-npm install package-name
+実装済みのセキュリティ対策：
+- XSS対策（Reactの自動エスケープ）
+- セキュリティヘッダー（Vercel設定）
+- 依存関係スキャン（Dependabot + npm audit）
+- HTTPS強制（Vercel自動）
 
-# Development dependency
-npm install -D package-name
-```
+## Common Gotchas
 
-Common packages you might add:
-- State: `redux`, `zustand`, `jotai`
-- Routing: `react-router-dom`
-- Forms: `react-hook-form`, `formik`
-- UI: `tailwindcss`, `styled-components`, `mui`
-- Testing: `vitest`, `@testing-library/react`
+1. **Tailwind v3使用中**: v4ではなくv3.4.17を使用（安定性のため）
+2. **環境変数**: `VITE_`プレフィックスが必要
+3. **ブランチ命名**: `claude/`で始まり、セッションIDで終わる必要がある
+4. **通知**: ユーザーインタラクション後のみ自動再生可能
 
-### Performance Considerations
+## Performance Optimization
 
-- Vite provides fast HMR and optimized builds
-- Use React.memo() for expensive components
-- Lazy load components with React.lazy() + Suspense
-- Code splitting is handled by Vite automatically
+実装済み：
+- ✅ Vite高速ビルド
+- ✅ useCallbackでのメモ化
+- ✅ アセットキャッシュ（1年）
+- ✅ コード分割（Vite自動）
 
-## Future Development Paths
+## Support Resources
 
-Given the project name "TodoReact", likely development directions:
-
-1. **Todo Application Features:**
-   - Create TodoList component
-   - Implement add/delete/edit functionality
-   - Add filtering (all/active/completed)
-   - LocalStorage persistence
-   - Task prioritization
-
-2. **Architecture Enhancements:**
-   - Add routing for multi-page views
-   - Implement state management solution
-   - Add testing framework
-   - Set up CI/CD pipeline
-
-3. **UI/UX Improvements:**
-   - Design system or component library
-   - Animations and transitions
-   - Accessibility improvements
-   - Mobile-first responsive design
-
-## Quick Reference
-
-### Project Commands
-| Command | Purpose |
-|---------|---------|
-| `npm install` | Install dependencies |
-| `npm run dev` | Start dev server with HMR |
-| `npm run build` | Build for production |
-| `npm run preview` | Preview production build |
-| `npm run lint` | Run ESLint |
-
-### Key Dependencies
-| Package | Version | Purpose |
-|---------|---------|---------|
-| react | ^18.2.0 | UI framework |
-| react-dom | ^18.2.0 | React DOM rendering |
-| vite | ^4.3.2 | Build tool & dev server |
-| @vitejs/plugin-react | ^4.0.0 | React support for Vite |
-| eslint | ^8.38.0 | Code quality tool |
-
-### File Path Patterns
-- Components: `src/**/*.jsx`
-- Styles: `src/**/*.css`
-- Assets: `src/assets/*`
-- Public files: `public/*`
-
-## Troubleshooting
-
-### Common Issues
-
-1. **Module not found:**
-   - Run `npm install` to ensure dependencies are installed
-   - Check import paths are correct (Vite uses `/` for public folder)
-
-2. **ESLint errors:**
-   - Check `.eslintrc.cjs` for rule configuration
-   - Run `npm run lint` to see all issues
-   - Fix or disable specific rules if needed
-
-3. **HMR not working:**
-   - Ensure files are in `src/` directory
-   - Check component exports are correct
-   - Restart dev server if needed
-
-4. **Build failures:**
-   - Check for console errors during build
-   - Ensure all imports are valid
-   - Verify no TypeScript errors (type checking on dev dependencies)
-
-## Resources
-
-- [Vite Documentation](https://vitejs.dev/)
-- [React Documentation](https://react.dev/)
-- [ESLint Rules](https://eslint.org/docs/rules/)
-- [React Hooks](https://react.dev/reference/react)
+- 📖 [README](README.md)
+- 🏗️ [アーキテクチャ](docs/ARCHITECTURE.md)
+- 🚀 [デプロイ](docs/DEPLOYMENT.md)
+- 🔧 [トラブルシューティング](docs/TROUBLESHOOTING.md)
+- 🤝 [コントリビューション](.github/CONTRIBUTING.md)
 
 ---
 
-**Note for AI Assistants:** This document should be updated whenever significant architectural changes are made, new conventions are established, or major dependencies are added. Keep it current to maintain its usefulness.
+**Note**: このファイルはAIアシスタント向けのガイドです。ユーザー向けドキュメントは `README.md` を参照してください。
