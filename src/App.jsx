@@ -22,6 +22,8 @@ function App() {
 
   const intervalRef = useRef(null)
   const audioRef = useRef(null)
+  const startTimeRef = useRef(null)
+  const totalSecondsRef = useRef(25 * 60)
 
   // Add task
   const addTask = () => {
@@ -76,16 +78,23 @@ function App() {
       alert('先にタスクを選択してください！')
       return
     }
+    // Record the start time and remaining time for timestamp-based calculation
+    startTimeRef.current = Date.now()
+    totalSecondsRef.current = timeRemaining
     setIsRunning(true)
   }
 
   const pauseTimer = () => {
     setIsRunning(false)
+    startTimeRef.current = null
   }
 
   const resetTimer = useCallback(() => {
     setIsRunning(false)
-    setTimeRemaining(pomodoroDuration * 60)
+    startTimeRef.current = null
+    const newTime = pomodoroDuration * 60
+    setTimeRemaining(newTime)
+    totalSecondsRef.current = newTime
   }, [pomodoroDuration])
 
   const completePomodoro = useCallback(() => {
@@ -134,18 +143,20 @@ function App() {
     }
   }, [])
 
-  // Timer effect
+  // Timer effect - timestamp-based for accurate background timing
   useEffect(() => {
-    if (isRunning) {
+    if (isRunning && startTimeRef.current) {
       intervalRef.current = setInterval(() => {
-        setTimeRemaining(prev => {
-          if (prev <= 1) {
-            completePomodoro()
-            return pomodoroDuration * 60
-          }
-          return prev - 1
-        })
-      }, 1000)
+        const now = Date.now()
+        const elapsedSeconds = Math.floor((now - startTimeRef.current) / 1000)
+        const newTimeRemaining = Math.max(0, totalSecondsRef.current - elapsedSeconds)
+
+        setTimeRemaining(newTimeRemaining)
+
+        if (newTimeRemaining <= 0) {
+          completePomodoro()
+        }
+      }, 100) // Check every 100ms for smoother updates
     } else {
       if (intervalRef.current) {
         clearInterval(intervalRef.current)
@@ -157,7 +168,36 @@ function App() {
         clearInterval(intervalRef.current)
       }
     }
-  }, [isRunning, pomodoroDuration, completePomodoro])
+  }, [isRunning, completePomodoro])
+
+  // Page Visibility API - optimize when tab is in background
+  useEffect(() => {
+    const handleVisibilityChange = () => {
+      if (document.hidden) {
+        // Tab is hidden - interval will continue but we're ready to sync
+        console.log('Tab hidden - timer continues in background')
+      } else {
+        // Tab is visible - force immediate update
+        if (isRunning && startTimeRef.current) {
+          const now = Date.now()
+          const elapsedSeconds = Math.floor((now - startTimeRef.current) / 1000)
+          const newTimeRemaining = Math.max(0, totalSecondsRef.current - elapsedSeconds)
+          setTimeRemaining(newTimeRemaining)
+
+          if (newTimeRemaining <= 0) {
+            completePomodoro()
+          }
+        }
+        console.log('Tab visible - timer synced')
+      }
+    }
+
+    document.addEventListener('visibilitychange', handleVisibilityChange)
+
+    return () => {
+      document.removeEventListener('visibilitychange', handleVisibilityChange)
+    }
+  }, [isRunning, completePomodoro])
 
   // Format time
   const formatTime = (seconds) => {
