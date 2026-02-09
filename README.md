@@ -112,6 +112,16 @@ TodoReact/
 ├── postcss.config.js       # PostCSS設定
 └── vercel.json             # Vercel設定
 
+## 🤖 Dependabotの動作
+
+Dependabotは`.github/dependabot.yml`に基づき、以下を自動で行います。
+
+- **npm依存関係**: 毎週月曜 9:00 (JST) に minor/patch の更新PRを作成（本番・開発依存を分離）
+- **GitHub Actions**: 毎週月曜 9:00 (JST) にアクションの更新PRを作成
+- **PRの自動付与**: ラベル（`dependencies` など）とレビュアーを付与し、コミットメッセージに `chore:` または `ci:` を付加
+
+DependabotのPRが作成されると、通常のPRと同様にCI（`.github/workflows/ci.yml`）とセキュリティ監査（`.github/workflows/security.yml`）が実行されます。
+
 ## 🤝 コントリビューション
 
 貢献を歓迎します！詳細は [CONTRIBUTING.md](.github/CONTRIBUTING.md) をご覧ください。
